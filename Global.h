@@ -8,7 +8,7 @@
 #include <sys/types.h>
 #include "dirent.h"
 #define F_OK 0
-
+#define TRUE 0
 struct GitRepository
 {
     char* worktree;

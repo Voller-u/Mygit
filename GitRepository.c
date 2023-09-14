@@ -1,25 +1,28 @@
 #include "Global.h"
-
-GitRepository init(char path[],bool force = false){
+#include "Global.h"
+GitRepository init(char path[],bool force){
+    force = false;
     GitRepository gitRepository;
     gitRepository.worktree = path;
     gitRepository.gitdir = path;
     strcat(gitRepository.gitdir,"/.git");
 
     if (!(force || access(gitRepository.gitdir,F_OK)==0)){
-        assert("Not a Git repository %s",path);
+        printf("ERROR:Not a Git repository %s",path);
     }
 
-    char* cf = repo_file( gitRepository,"config");
+    /* ---------------------------- 读取.git/config配置文件 --------------------------- */
+    char* cf = repo_file( gitRepository,"config",false);
     if(cf && access(cf,F_OK)==0){
 
     }
     else if (!force){
-        assert("Configuration file missing");
+        printf("Configuration file missing");
     }
 
     if(!force){
-
+        //TODO 读取版本号
+        
     }
 }
 
@@ -29,7 +32,9 @@ char* repo_path(GitRepository repo,char path[]){
     return repoPath;
 }
 
-char* repo_file(GitRepository repo,char path[],bool mkdir = false){
+char* repo_file(GitRepository repo,char path[],bool mkdir){
+    mkdir = false;
+    //返回目标文件路径
     if(repo_dir(repo,path,mkdir)){
         return repo_path(repo,path);
     }
@@ -42,6 +47,21 @@ bool exists(char* path){
         return true;
     else  
         return false;
+}
+
+void set_repo_default_config(GitRepository* repo){
+    char* config_path = (*repo).config;
+    FILE* config_fp = NULL;
+    config_fp = fopen(config_path,"w+");
+    if(config_fp == NULL){
+        assert("配置文件打开失败");
+    }
+    else{
+        fprintf(config_fp,"[core]\n");
+        fprintf(config_fp,"\trepositoryformatversion = 0\n");
+        fprintf(config_fp,"\tfilemode = false\n");
+        fprintf(config_fp,"\tbare = false\n");
+    }
 }
 
 bool isFolder(char* path){
@@ -89,13 +109,14 @@ bool isEmptyFolder(char* path){
     return true;
 }
 
-char* repo_dir(GitRepository repo,char path[],bool mkdir = false){
+char* repo_dir(GitRepository repo,char path[],bool mkdir){
+    mkdir = false;
     path = repo_path(repo,path);
 
     if(exists(path)){
         if(access(repo.gitdir,F_OK)==0) return path;
         else {
-            assert("Not a directory %s ",path);
+            printf("ERROR:Not a directory %s ",path);
         }
     }
 
@@ -112,10 +133,10 @@ GitRepository repo_create(char path[]){
 
     if(exists(path)){
         if(!isFolder(repo.worktree)){
-            assert("%s is not a directory!" ,path);
+            printf("%s is not a directory!" ,path);
         }
         if(exists(repo.gitdir)){
-            assert("%s is not empty!" , path);
+            printf("%s is not empty!" , path);
         }
     }
 

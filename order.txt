@@ -1,0 +1,3 @@
+gcc -c git.c
+gcc -c .\GitRepository.c
+gcc -o main git.o .\GitRepository.o

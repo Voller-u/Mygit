@@ -9,7 +9,6 @@
 #include <stdbool.h>
 #include "dirent.h"
 #define F_OK 0
-#define TRUE 0
 typedef struct GitRepository
 {
     char* worktree;
@@ -20,8 +19,13 @@ typedef struct GitRepository
 
 GitRepository init(char path[],bool force);
 
-char* repo_path(GitRepository repo,char path[]);
+// char* repo_path(char** repoPath,GitRepository repo,char path[]);
 
-char* repo_file(GitRepository repo,char path[],bool mkdir);
+// char* repo_file(GitRepository repo,char path[],bool mkdir);
 
 char* repo_dir(GitRepository repo,char path[],bool mkdir);
+
+//set_repo_default_config:设置默认配置文件
+void set_repo_default_config(GitRepository* repo);
+
+GitRepository repo_create(char path[]);

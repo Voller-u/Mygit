@@ -11,21 +11,16 @@
 #define F_OK 0
 typedef struct GitRepository
 {
-    char* worktree;
-    char* gitdir;
-    char* config;
+    char worktree[30];
+    char gitdir[30];
+    char config[30];
     /* -------------------------- worktree,gitdir,conf -------------------------- */
 }GitRepository;
 
 GitRepository init(char path[],bool force);
 
-// char* repo_path(char** repoPath,GitRepository repo,char path[]);
-
-// char* repo_file(GitRepository repo,char path[],bool mkdir);
-
-char* repo_dir(GitRepository repo,char path[],bool mkdir);
 
 //set_repo_default_config:设置默认配置文件
 void set_repo_default_config(GitRepository* repo);
 
-GitRepository repo_create(char path[]);
+void repo_create(GitRepository* repo,char path[]);

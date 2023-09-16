@@ -7,6 +7,8 @@
 #include <stdlib.h>
 #include <sys/types.h>
 #include <stdbool.h>
+#include <limits.h>
+#include <windows.h>
 #include "dirent.h"
 #define F_OK 0
 typedef struct GitRepository

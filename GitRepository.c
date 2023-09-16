@@ -164,3 +164,38 @@ void repo_create(GitRepository* repo,char path[]){
     set_repo_default_config(repo);
     fclose(conf_fp);
 }
+
+//将路径转为系统绝对路径
+void fullPath(char s[MAX_PATH]){
+    DWORD len = GetFullPathName(".",MAX_PATH,s,NULL);
+
+    if(len == 0){
+        printf("GetFullPathName failed: %d\n",GetLastError());
+        return;
+    }
+}
+
+void repo_find(char real_path[MAX_PATH]){
+    fullPath(real_path);
+    printf("%s",real_path);
+    char real_path_plus_git[MAX_PATH];
+    memcpy(real_path_plus_git,real_path,sizeof real_path);
+    strcat(real_path_plus_git,"/.git");
+    if(isFolder(real_path_plus_git))
+        return;
+    //如果没有返回，说明.git应该在父级或更高的目录中，继续递归
+    char parent[MAX_PATH];
+    memcpy(parent,real_path_plus_git,sizeof real_path_plus_git);
+    strcat(parent,"../");
+    fullPath(parent);
+    if(strcmp(parent,real_path)==0){
+        //若父目录与当前目录相同，说明当前已经是根目录并且没有.git文件夹
+        printf("No git directory.");
+        return;
+    }
+
+    //否则继续递归
+
+    repo_find(parent);
+
+}

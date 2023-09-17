@@ -10,7 +10,13 @@
 				"-g",
 				"${file}",
 				"-o",
-				"${fileDirname}\\${fileBasenameNoExtension}.exe"
+				"${fileDirname}\\${fileBasenameNoExtension}.exe",
+				"-i",
+				"C:\\Program Files (x86)\\OpenSSL-Win32\\include",
+				"-l",
+				"ssl",
+				"-l",
+				"crypto"
 			],
 			"options": {
 				"cwd": "${fileDirname}"

@@ -9,15 +9,23 @@
 #include <stdbool.h>
 #include <limits.h>
 #include <windows.h>
+#include <openssl/sha.h>
 #include "dirent.h"
+#include "zlib-1.3/zlib.h"
 #define F_OK 0
-typedef struct GitRepository
-{
+#pragma comment(lib,"libssl.lib")
+#pragma comment(lib,"libcrypto.lib")
+typedef struct {
     char worktree[30];
     char gitdir[30];
     char config[30];
     /* -------------------------- worktree,gitdir,conf -------------------------- */
 }GitRepository;
+
+typedef struct{
+    char fmt[20];//类型
+    char *data;//数据
+}Object;
 
 GitRepository init(char path[],bool force);
 

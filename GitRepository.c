@@ -360,7 +360,7 @@ void computeSHA1(const char *data, size_t dataSize, char *sha1Hash) {
     SHA1_Final(sha1Hash, &sha1Context);
 }
 
-void object_write(Object obj,GitRepository* repo,bool isRepo){
+void object_write(Object obj,GitRepository* repo,bool isRepo,char Sha[]){
     char* serialized_data;
     size_t serialized_size;
     //序列化对象数据
@@ -391,5 +391,37 @@ void object_write(Object obj,GitRepository* repo,bool isRepo){
         to_repo_path(path,*repo,hexSha1Hash);
         hexSha1Hash[2]=t_c;
         to_repo_path(path,*repo,hexSha1Hash+2);
+
+        if(!exists(path)){
+            //压缩并写入
+            FILE* ob_fp;
+            if(( ob_fp = fopen(path,"wb")) == NULL){
+                printf("%s file open failed!\n",path);
+                return;
+            }
+
+        char *compressedData = NULL;
+        uLong compressedSize = compressBound(strlen(result));  // 计算压缩后数据的大小
+        compressedData = (char *)malloc(compressedSize);
+        if (compressedData == NULL) {
+            perror("Failed to allocate memory");
+            fclose(ob_fp);
+            return 1;
+        }
+
+        if (compress((Bytef *)compressedData, &compressedSize, (const Bytef *)result, strlen(result)) != Z_OK) {
+            perror("Failed to compress data");
+            fclose(ob_fp);
+            free(compressedData);
+            return 1;
+        }
+
+        fwrite(compressedData, 1, compressedSize, ob_fp);
+        fclose(ob_fp);
+        free(compressedData);
+        }
     }
+    
+    //得到哈希值
+    memcpy(Sha,hexSha1Hash,sizeof hexSha1Hash);
 }

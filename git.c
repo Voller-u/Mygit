@@ -13,6 +13,14 @@ int main(int argc, char* argv[])
 
       }
     }
+    else if(strcmp(argv[1],"cat-file") == 0){
+      if(argc > 2){//打印原始内容
+
+      }
+      else{//未指定对象
+        printf("未指定对象！\n");
+      }
+    }
     else{
       printf("'%s' is not a command. See 'main.exe --help'. \n",argv[1]);
     }

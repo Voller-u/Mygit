@@ -27,6 +27,10 @@ typedef struct{
     char *data;//数据
 }Object;
 
+typedef struct{
+    Object object;
+}GitBlob;
+
 GitRepository init(char path[],bool force);
 
 
@@ -34,3 +38,7 @@ GitRepository init(char path[],bool force);
 void set_repo_default_config(GitRepository* repo);
 
 void repo_create(GitRepository* repo,char path[]);
+
+void serialize(Object* object,char blobdata[]);
+
+void deserialize(Object* object,char data[]);

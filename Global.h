@@ -9,12 +9,15 @@
 #include <stdbool.h>
 #include <limits.h>
 #include <windows.h>
-#include <openssl/sha.h>
+//#include <openssl/sha.h>
+#include "openssl/sha.h"
+#pragma comment(lib,"libssl.lib")
+#pragma comment(lib,"libcrypto.lib")
+
 #include "dirent.h"
 #include "zlib-1.3/zlib.h"
 #define F_OK 0
-#pragma comment(lib,"libssl.lib")
-#pragma comment(lib,"libcrypto.lib")
+
 typedef struct {
     char worktree[30];
     char gitdir[30];

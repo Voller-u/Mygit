@@ -1,3 +1,4 @@
 gcc -c git.c
 gcc -c .\GitRepository.c
-gcc -o main git.o .\GitRepository.o
+gcc -c .\parser.c
+gcc -o main git.o .\GitRepository.o .\parser.o

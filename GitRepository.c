@@ -223,41 +223,6 @@ void buildPartialMatchTable(const char *pattern, int *partialMatchTable) {
     }
 }
 
-// KMP算法主函数，用于在文本中查找模式串
-int KMP(const char *text, const char *pattern) {
-    int textLen = strlen(text);
-    int patternLen = strlen(pattern);
-
-    // 构建部分匹配表
-    int *partialMatchTable = (int*)malloc(sizeof(int) * patternLen);
-    buildPartialMatchTable(pattern, partialMatchTable);
-
-    int i = 0;  // 在文本中的当前位置
-    int j = 0;  // 在模式串中的当前位置
-
-    while (i < textLen) {
-        if (pattern[j] == text[i]) {
-            i++;
-            j++;
-        }
-
-        if (j == patternLen) {
-            // 找到匹配，返回 
-            free(partialMatchTable);
-            return i-j;
-            j = partialMatchTable[j - 1];
-        } else if (i < textLen && pattern[j] != text[i]) {
-            if (j != 0) {
-                j = partialMatchTable[j - 1];
-            } else {
-                i++;
-            }
-        }
-    }
-    free(partialMatchTable);
-    return -1;
-}
-
 void object_read(GitRepository* repo,char sha[]){
     char path[MAX_PATH];//path:对象文件的路径
     char tc = sha[2];
@@ -425,3 +390,15 @@ void object_write(Object obj,GitRepository* repo,bool isRepo,char Sha[]){
     //得到哈希值
     memcpy(Sha,hexSha1Hash,sizeof hexSha1Hash);
 }
+
+// Object object_find(GitRepository* repo,){
+
+// }
+
+// void cat_file(GitRepository* repo,Object* obj,char fmt[]){
+//     object_read(repo)   
+// }
+
+// void cmd_cat_file(){
+
+// }

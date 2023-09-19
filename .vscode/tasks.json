@@ -16,7 +16,9 @@
 				"-l",
 				"ssl",
 				"-l",
-				"crypto"
+				"crypto",
+				"-l",
+				"sha"
 			],
 			"options": {
 				"cwd": "${fileDirname}"

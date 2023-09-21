@@ -8,8 +8,8 @@ extern void parser(int argc, char* argv[]){
       }
       //当前目录初始化仓库
       else {
-        //GitRepository git_repository = repo_create(argv[1]);
-
+        GitRepository git;
+        repo_create(&git, "");
       }
     }
     else if(strcmp(argv[1],"cat-file") == 0){
